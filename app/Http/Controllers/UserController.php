@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -28,6 +28,12 @@ class UserController extends Controller
 
     }
 
+    public function logout(Request $request){
+        $request->user()->currentAccessToken()->delete();
+        return response()->json('logged out');
+
+    }
+
     public function index()
     {
         $users = User::get();
@@ -36,17 +42,13 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        $users = User::create($request->merge([
-            "password" => Hash::make($request->password)
-        ])->toArray());
+        $users = User::create($request->toArray());
         return response()->json($users);
     }
 
     public function edit(Request $request, $id)
     {
-        $users = User::where('id', $id)->update($request->merge([
-            "password" => Hash::make($request->password)
-        ])->toArray());
+        $users = User::where('id', $id)->update($request->toArray());
         return response()->json($users);
     }
 

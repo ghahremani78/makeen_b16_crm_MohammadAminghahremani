@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OrdersController extends Controller
 {
     public function index() {
-        $orders = DB::table('orders')->get();
+        $orders = Order::with(['user','products'])->get();
+
         return response()->json( $orders);
     }
 
     public function create(Request $request) {
-      $orders = DB::table('orders')->insert($request->toArray());
+      $orders = Order::create($request->toArray());
+      $orders->products()->attach($request->product_ids);
         return response()->json($orders);
     }
 
