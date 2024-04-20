@@ -1,28 +1,29 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     public function index() {
-        $products = DB::table('products')->get();
+        $products =Product::get();
         return response()->json( $products);
     }
 
     public function create(Request $request) {
-        DB::table('products')->insert($request->toArray());
-        return response()->json('products');
+      $products = Product::create($request->toArray());
+        return response()->json($products);
     }
 
     public function edit(Request $request, $id) {
-        $products = DB::table('products')->where('id', $id)->update($request->toArray());
+        $products = Product::where('id',$id)->update($request->toArray());
         return response()->json($products);
     }
 
     public function delete($id) {
-        $products = DB::table('products')->where('id', $id)->delete();
+        $products = Product::destroy($id);
         return response()->json($products);
     }
 }

@@ -1,8 +1,12 @@
 <?php
 
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FactorController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ResellerController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
@@ -30,7 +34,7 @@ Route::get('logout',function () {
     return '401';
 });
 
-Route::group(['prefix'=> 'users', 'as' => 'users.','middleware' => 'auth:sanctum'], function(){
+Route::group(['prefix'=> 'user', 'as' => 'user.','middleware' => 'auth:sanctum'], function(){
     Route::get('index', [UserController::class, 'index'])->name('index');
     Route::post('create', [UserController::class, 'create'])->name('create')->withoutMiddleware('auth:sanctum');
     Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
@@ -39,30 +43,51 @@ Route::group(['prefix'=> 'users', 'as' => 'users.','middleware' => 'auth:sanctum
 });
 
 //products
-Route::group(['prefix'=> 'products', 'as' => 'products.','middleware' => 'auth:sanctum'], function(){
-   Route::get('index',[ProductsController::class, 'index'])->name('index');
-   Route::post('create',[ProductsController::class, 'create'])->name('create');
-   Route::put('edit/{id}', [ProductsController::class, 'edit'])->name('edit');
-   Route::delete('delete/{id}', [ProductsController::class, 'delete'])->name('delete');
+Route::group(['prefix'=> 'product', 'as' => 'product.','middleware' => 'auth:sanctum'], function(){
+   Route::get('index',[ProductController::class, 'index'])->name('index');
+   Route::post('create',[ProductController::class, 'create'])->name('create');
+   Route::put('edit/{id}', [ProductController::class, 'edit'])->name('edit');
+   Route::delete('delete/{id}', [ProductController::class, 'delete'])->name('delete');
 });
 
 
 //order
-Route::group(['prefix'=> 'orders', 'as' => 'orders.','middleware' => 'auth:sanctum'], function (){
-     Route::get('index',[OrdersController::class, 'index'])->name('index');
-     Route::post('create',[OrdersController::class, 'create'])->name('create');
-     Route::put('edit/{id}',[OrdersController::class, 'edit'])->name('edit');
-    Route::delete('delete/{id}', [OrdersController::class, 'delete'])->name('delete');
-
-
+Route::group(['prefix'=> 'order', 'as' => 'order.','middleware' => 'auth:sanctum'], function (){
+     Route::get('index',[OrderController::class, 'index'])->name('index');
+     Route::post('create',[OrderController::class, 'create'])->name('create');
+     Route::put('edit/{id}',[OrderController::class, 'edit'])->name('edit');
+     Route::get('show',[OrderController::class, 'show'])->name('show');
+     Route::delete('delete/{id}', [OrderController::class, 'delete'])->name('delete');
 });
 
-//categories
-Route::group(['prefix'=> 'categories', 'as' => 'categories.','middleware' => 'auth:sanctum'], function(){
-    Route::get('index',[CategoriesController::class, 'index'])->name('index');
-    Route::post('create',[CategoriesController::class, 'crate'])->name('create');
-    Route::put('edit/{id}',[CategoriesController::class, 'edit'])->name('edit');
-    Route::delete('delete/{id}', [CategoriesController::class, 'delete'])->name('delete');
+//factors
+Route::group(['prefix'=> 'factors', 'as' => 'factors.','middleware' => 'auth:sanctum'], function(){
+    Route::get('index',[FactorController::class, 'index'])->name('index');
+    Route::post('create',[FactorController::class, 'crate'])->name('create');
+    Route::put('edit/{id}',[FactorController::class, 'edit'])->name('edit');
+    Route::delete('delete/{id}', [FactorController::class, 'delete'])->name('delete');
+});
 
+//team
+Route::group(['prefix'=> 'team', 'as' => 'team','middleware' => 'auth:sanctum'], function(){
+    Route::get('index',[TeamController::class, 'index'])->name('index');
+    Route::post('create',[TeamController::class, 'create'])->name('create');
+    Route::put('edi/{id}',[TeamController::class, 'edit'])->name('edit');
+    Route::delete('delete/{id}',[TeamController::class, 'delete'])->name('delete');
+});
 
+//reseller
+Route::group(['prefix'=> 'reseller', 'as' => 'reseller','middleware' => 'auth:sanctum'], function(){
+    Route::get('index',[ResellerController::class, 'index'])->name('index');
+    Route::post('create',[ResellerController::class, 'create'])->name('create');
+    Route::put('edi/{id}',[ResellerController::class, 'edit'])->name('edit');
+    Route::delete('delete/{id}',[ResellerController::class, 'delete'])->name('delete');
+});
+
+//task
+Route::group(['prefix'=> 'task', 'as' => 'task', 'middleware' => 'auth:sanctum'], function(){
+    Route::get('index',[TaskController::class, 'index'])->name('index');
+    Route::post('create',[TaskController::class, 'create'])->name('create');
+    Route::put('edit/{id}',[TaskController::class, 'edit'])->name('edit');
+    Route::delete('delete/{id}',[TaskController::class, 'delete'])->name('delete');
 });

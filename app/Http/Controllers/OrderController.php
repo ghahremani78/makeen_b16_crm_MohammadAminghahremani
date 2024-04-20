@@ -6,12 +6,17 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class OrdersController extends Controller
+class OrderController extends Controller
 {
     public function index() {
         $orders = Order::with(['user','products'])->get();
 
         return response()->json( $orders);
+    }
+
+    public function show($id){
+        $order = Order::with(['user','products'])->find($id);
+        return response()->json($order);
     }
 
     public function create(Request $request) {
@@ -21,12 +26,12 @@ class OrdersController extends Controller
     }
 
     public function edit(Request $request, $id) {
-        $orders = DB::table('orders')->where('id', $id)->update($request->toArray());
+        $orders = Order::where('id', $id)->update($request->toArray());
         return response()->json($orders);
     }
 
     public function delete($id) {
-        $orders = DB::table('orders')->where('id', $id)->delete();
+        $orders = Order::destroy($id);
         return response()->json($orders);
     }
 }

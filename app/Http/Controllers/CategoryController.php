@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Illuminate\Http\Request;
 
-class CategoriesController extends Controller
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class CategoryController extends Controller
 {
     public function index() {
         $categories = DB::table('categories')->get();
@@ -21,7 +22,7 @@ class CategoriesController extends Controller
         $categories = DB::table('categories')->where('id', $id)->update($request->toArray());
         return response()->json($categories);
     }
-    
+
     public function delete($id) {
         $categories = DB::table('categories')->where('id', $id)->delete();
         return response()->json($categories);

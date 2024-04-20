@@ -56,7 +56,6 @@ class UserController extends Controller
     {
         $users = User::destroy($id);
         return response()->json($users);
-
     }
 
 }
