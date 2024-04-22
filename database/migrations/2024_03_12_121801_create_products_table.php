@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('memory');
             $table->string('operatingsystem');
             $table->string('color');
-            $table->unsignedBigInteger('brand_id');
-            $table->unsignedBigInteger('warranty_id');
+            //$table->unsignedBigInteger('brand_id');
+            //$table->unsignedBigInteger('warranty_id');
             $table->timestamps();
         });
     }

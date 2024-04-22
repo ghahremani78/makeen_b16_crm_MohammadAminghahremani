@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('categoryname');
-            $table->text('description');
-            $table->timestamps();
+        Schema::create('lable_team', function (Blueprint $table) {
+            $table->unsignedBigInteger('lable_id');
+            $table->unsignedBigInteger('team_id');
+           $table->unique(['lable_id','team_id']);
         });
     }
 
@@ -24,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('lable_team');
     }
 };

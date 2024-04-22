@@ -36,7 +36,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = User::get();
+        $users = User::with(['team'])->get();
         return response()->json($users);
     }
 

@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('factors', function (Blueprint $table) {
-            $table->id();
-            $table->string('amount');
-            $table->string('status');
-            $table->string('request_from');
-            $table->unsignedBigInteger('order_id');
+        Schema::create('lable_user', function (Blueprint $table) {
+            $table->unsignedBigInteger('lable_id');
             $table->unsignedBigInteger('user_id');
-            $table->timestamps();
+           $table->unique(['lable_id','user_id']);
         });
     }
 
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('factors');
+        Schema::dropIfExists('lable_user');
     }
 };

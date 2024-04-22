@@ -25,14 +25,14 @@ use Illuminate\Support\Facades\Route;
 //users
 
 Route::post('login',[UserController::class, 'login'])->name('login');
-Route::get('login',function () {
-    return '401';
-});
+ Route::get('login',function () {
+     return '401';
+ });
 
 Route::post('logout',[UserController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
-Route::get('logout',function () {
-    return '401';
-});
+ Route::get('logout',function () {
+     return '401';
+ });
 
 Route::group(['prefix'=> 'user', 'as' => 'user.','middleware' => 'auth:sanctum'], function(){
     Route::get('index', [UserController::class, 'index'])->name('index');

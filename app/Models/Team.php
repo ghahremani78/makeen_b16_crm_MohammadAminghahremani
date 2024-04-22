@@ -12,4 +12,8 @@ class Team extends Model
         'name',
         'description'
     ];
+
+    public function user(){
+        return $this->hasMany(User::class);
+    }
 }
