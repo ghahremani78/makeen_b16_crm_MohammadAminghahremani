@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
     public function index() {
-        $orders = Order::with(['user','products'])->get();
+        $orders = Order::with(['user:id,username','products'])->get();
 
         return response()->json( $orders);
     }
