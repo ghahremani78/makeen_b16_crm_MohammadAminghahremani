@@ -10,13 +10,15 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::get();
+        $products = Product::with(['brand','orders','labe'])->get();
         return response()->json($products);
     }
 
     public function create(Request $request)
     {
         $products = Product::create($request->toArray());
+        $products->orders()->attach($request->order_ids);
+        $products->labels()->attach($request->label_ids);
         return response()->json($products);
     }
 

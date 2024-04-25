@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FactorController;
+use App\Http\Controllers\LabelController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ResellerController;
@@ -25,20 +27,15 @@ use Illuminate\Support\Facades\Route;
 //users
 
 Route::post('login',[UserController::class, 'login'])->name('login');
- Route::get('login',function () {
-     return '401';
- });
 
 Route::post('logout',[UserController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
- Route::get('logout',function () {
-     return '401';
- });
+Route::post('Role/{id}',[UserController::class,'Role'])->name('role');
 
 Route::group(['prefix'=> 'user', 'as' => 'user.','middleware' => 'auth:sanctum'], function(){
-    Route::get('index', [UserController::class, 'index'])->name('index');
-    Route::post('create', [UserController::class, 'create'])->name('create')->withoutMiddleware('auth:sanctum');
-    Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
-    Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete');
+    Route::get('index', [UserController::class, 'index'])->name('index')->middleware('index-users');
+    Route::post('create', [UserController::class, 'create'])->name('create')->middleware('create-users')->withoutMiddleware('auth:sanctum');
+    Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit')->middleware('edit-users');
+    Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete')->middleware('delete-users');
 
 });
 
@@ -71,7 +68,7 @@ Route::group(['prefix'=> 'factors', 'as' => 'factors.','middleware' => 'auth:san
 //team
 Route::group(['prefix'=> 'team', 'as' => 'team','middleware' => 'auth:sanctum'], function(){
     Route::get('index',[TeamController::class, 'index'])->name('index');
-    Route::post('create',[TeamController::class, 'create'])->name('create');
+    Route::post('create',[TeamController::class, 'create'])->name('create')->withoutMiddleware('auth:sanctum');;
     Route::put('edi/{id}',[TeamController::class, 'edit'])->name('edit');
     Route::delete('delete/{id}',[TeamController::class, 'delete'])->name('delete');
 });
@@ -91,3 +88,19 @@ Route::group(['prefix'=> 'task', 'as' => 'task', 'middleware' => 'auth:sanctum']
     Route::put('edit/{id}',[TaskController::class, 'edit'])->name('edit');
     Route::delete('delete/{id}',[TaskController::class, 'delete'])->name('delete');
 });
+
+//brand
+Route::group(['prefix'=> 'brand', 'as' => 'brand', 'middleware' => 'auth:sanctum'],function(){
+    Route::get('index',[BrandController::class, 'index'])->name('index');
+    Route::post('create',[BrandController::class,'create'])->name('create');
+    Route::put('edit/{id}',[BrandController::class, 'edit'])->name('edit');
+    Route::delete('delete/{id}',[BrandController::class, 'delete'])->name('delete');
+});
+
+//label
+Route::group(['prefix'=> 'label', 'as' => 'label', 'middleware' => 'auth:sanctum'],function(){
+    Route::get('index',[LabelController::class, 'index'])->name('index');
+    Route::post('create',[LabelController::class,'create'])->name('create')->withoutMiddleware('auth:sanctum');
+    Route::put('edit/{id}',[LabelController::class, 'edit'])->name('edit');
+    Route::delete('delete/{id}',[LabelController::class, 'delete'])->name('delete');
+    });

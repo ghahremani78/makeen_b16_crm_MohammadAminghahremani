@@ -13,7 +13,10 @@ class Team extends Model
         'description'
     ];
 
-    public function user(){
+    public function users(){
         return $this->hasMany(User::class);
+    }
+    public function labels(){
+        return $this->morphToMany(label::class,'labelable');
     }
 }

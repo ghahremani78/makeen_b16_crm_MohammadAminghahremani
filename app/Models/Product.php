@@ -15,12 +15,20 @@ class Product extends Model
          'price',
          'memory',
          'operatingsystem',
-         'color'
+         'color',
+         'brand_id'
     ];
 
 
     public function orders(){
         return $this->belongsToMany(Order::class);
+    }
+
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
+    public function label(){
+        return $this->morphToMany(label::class,'labelable');
     }
 
 }

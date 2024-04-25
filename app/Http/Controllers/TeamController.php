@@ -8,12 +8,13 @@ use Illuminate\Http\Request;
 class TeamController extends Controller
 {
     public function index(){
-        $team = Team::get();
+        $team = Team::with('users:id,username,team_id','labels')->get();
         return response()->json($team);
     }
 
     public function create(Request $request){
         $team = Team::create($request->toArray());
+        $team->labels()->attach($request->label_ids);
         return response()->json($team);
     }
 

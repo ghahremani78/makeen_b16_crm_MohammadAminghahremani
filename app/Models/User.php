@@ -22,7 +22,9 @@ class User extends Authenticatable
         'username',
         'phoneNumber',
         'email',
-        'password'
+        'password',
+        'team_id',
+
     ];
 
     /**
@@ -51,5 +53,9 @@ class User extends Authenticatable
 
     public function team(){
         return $this->belongsTo(Team::class);
+    }
+
+    public function labels(){
+        return $this->morphToMany(label::class,'labelable');
     }
 }

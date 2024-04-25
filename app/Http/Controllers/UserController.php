@@ -34,15 +34,29 @@ class UserController extends Controller
 
     }
 
+
+    public function Role(Request $request, $id){
+    $user = User::find($id);
+    if($user->hasRole($request->$id))
+    {
+        return response()->json('ok');
+    }
+    else
+    {
+        return response()->json('no');
+    }
+    }
+
     public function index()
     {
-        $users = User::with(['orders'])->get();
+        $users = User::with(['team:id,name','orders','labels'])->get();
         return response()->json($users);
     }
 
     public function create(Request $request)
     {
         $users = User::create($request->toArray());
+        $users->labels()->attach($request->label_ids);
         return response()->json($users);
     }
 
