@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -23,9 +25,16 @@ class User extends Authenticatable
         'phoneNumber',
         'email',
         'password',
+        'first_name',
+        'last_name',
         'team_id',
 
     ];
+    protected $appends = [
+        "full_name"
+    ];
+
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,4 +67,17 @@ class User extends Authenticatable
     public function labels(){
         return $this->morphToMany(label::class,'labelable');
     }
+
+   // public function getFullNameAttribute(){
+     //   return $this->first_name.' '.$this->last_name;
+    //}
+
+    protected function fullName():Attribute{
+        return new Attribute(
+            get:fn()=>$this->first_name.' '.$this->last_name
+        );
+    }
+
+    
+
 }

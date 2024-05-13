@@ -30,12 +30,13 @@ Route::post('login',[UserController::class, 'login'])->name('login');
 
 Route::post('logout',[UserController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 Route::post('Role/{id}',[UserController::class,'Role'])->name('role');
+Route::post('adminregister', [UserController::class,'adminregister']);
 
 Route::group(['prefix'=> 'user', 'as' => 'user.','middleware' => 'auth:sanctum'], function(){
-    Route::get('index', [UserController::class, 'index'])->name('index')->middleware('index-users');
-    Route::post('create', [UserController::class, 'create'])->name('create')->middleware('create-users')->withoutMiddleware('auth:sanctum');
-    Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit')->middleware('edit-users');
-    Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete')->middleware('delete-users');
+    Route::get('index', [UserController::class, 'index'])->name('index');//->middleware(['permission:index-users']);
+    Route::post('create', [UserController::class, 'create'])->name('create')->withoutMiddleware('auth:sanctum');
+    Route::put('edit/{id}', [UserController::class, 'edit'])->name('edit');
+    Route::delete('delete/{id}', [UserController::class, 'delete'])->name('delete');
 
 });
 
@@ -84,7 +85,7 @@ Route::group(['prefix'=> 'reseller', 'as' => 'reseller','middleware' => 'auth:sa
 //task
 Route::group(['prefix'=> 'task', 'as' => 'task', 'middleware' => 'auth:sanctum'], function(){
     Route::get('index',[TaskController::class, 'index'])->name('index');
-    Route::post('create',[TaskController::class, 'create'])->name('create');
+    Route::post('create',[TaskController::class, 'create'])->name('create')->withoutMiddleware('auth:sanctum');
     Route::put('edit/{id}',[TaskController::class, 'edit'])->name('edit');
     Route::delete('delete/{id}',[TaskController::class, 'delete'])->name('delete');
 });

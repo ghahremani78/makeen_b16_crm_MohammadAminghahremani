@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -47,10 +48,20 @@ class UserController extends Controller
     }
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with(['team:id,name','orders','labels'])->get();
-        return response()->json($users);
+        //$phone_number = request('phone_number');
+        //$email = request('email');
+        $user =new User();
+        //سفارشاتی مه مربوط به کاربر با شماره مو بایل ایکس و ایمیل ایکس می باشد
+      $user = $user->with(['team:id,name','orders','labels:id,name']);
+      //$user = $user->whereHas('orders',function(Builder $q) use($phone_number,$email){
+      //$q->where('email',$email)->where('phoneNumber',$phone_number);
+   //});
+        //if($request->has_order)
+        //$user = $user->paginate(10);
+        $user = $user->get();
+        return response()->json($user);
     }
 
     public function create(Request $request)
@@ -70,6 +81,12 @@ class UserController extends Controller
     {
         $users = User::destroy($id);
         return response()->json($users);
+    }
+
+    public function adminregister(Request $request){
+        $user = User::create($request->toArray());
+        $user->assignRole($request->role);
+        return response()->json($user);
     }
 
 }
