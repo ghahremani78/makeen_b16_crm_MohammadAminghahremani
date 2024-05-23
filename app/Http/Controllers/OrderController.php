@@ -14,26 +14,14 @@ class OrderController extends Controller
 
         $orders = new Order();
         $orders = $orders->with(['user:id,username', 'products'])->orderBy('id', 'desc');
-        //if ($request->email) {
-            //$orders = $orders->whereHas('user', function (Builder $q) use ($email) {
-              //  $q->where('email', $email);
-           //});
-       // }
-        //if($request->phoneNumber) {
-           // $orders = $orders->whereHas('user', function (Builder $q) use ($phoneNumber) {
-          //      $q->where('phoneNumber', $phoneNumber);
-            //});
-        //}
-
-
-
-
-
         $orders = $orders->get();
+        if($request->user()->can('order.index')){
 
+            return response()->json($orders);
+        }else{
+            return response()->json('user dose not have permission',403);
+        }
 
-
-        return response()->json($orders);
     }
 
     public function show($id)

@@ -64,6 +64,10 @@ class User extends Authenticatable
         return $this->belongsTo(Team::class);
     }
 
+    public function ticket(){
+        return $this->hasMany(Ticket::class);
+    }
+
     public function labels(){
         return $this->morphToMany(label::class,'labelable');
     }
@@ -78,6 +82,6 @@ class User extends Authenticatable
         );
     }
 
-    
+
 
 }

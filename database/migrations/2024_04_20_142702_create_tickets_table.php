@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
             $table->string('subject');
-            $table->timestamp('expire_at');
+            $table->string('status');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('message_id');
             $table->timestamps();

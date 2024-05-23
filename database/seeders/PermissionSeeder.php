@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
+
 class PermissionSeeder extends Seeder
 {
     /**
@@ -14,19 +15,19 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         //user permission
-        Permission::create(['name'=>'create-user']);
-        Permission::create(['name'=>'index-user']);
-        Permission::create(['name'=>'edit-user']);
-        Permission::create(['name'=>'delete-user']);
+        Permission::create(['name' => 'user.index']);
+        Permission::create(['name' => 'user.create']);
+        Permission::create(['name' => 'user.edit']);
+        Permission::create(['name' => 'user.delete']);
         //product permission
-        Permission::create(['name'=>'create-product']);
-        Permission::create(['name'=>'index-product']);
-        Permission::create(['name'=>'edit-product']);
-        Permission::create(['name'=>'delete-product']);
+        Permission::create(['name' => 'product.index']);
+        Permission::create(['name' => 'product.create']);
+        Permission::create(['name' => 'product.edit']);
+        Permission::create(['name' => 'product.delete']);
         //order permissiom
-        Permission::create(['name'=>'create-order']);
-        Permission::create(['name'=>'index-order']);
-        Permission::create(['name'=>'edit-order']);
-        Permission::create(['name'=>'delete-order']);
+        Permission::create(['name' => 'order.index']);
+        Permission::create(['name' => 'order.create']);
+        Permission::create(['name' => 'order.edit']);
+        Permission::create(['name' => 'order.delete']);
     }
 }

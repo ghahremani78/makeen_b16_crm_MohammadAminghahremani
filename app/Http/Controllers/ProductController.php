@@ -8,17 +8,25 @@ use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::with(['brand','orders','labels'])->get();
-        return response()->json($products);
+        $products = Product::with(['brand','orders','labels','warranty'])->get();
+        if($request->user()->can('product.index')){
+
+            return response()->json($products);
+        }else{
+            return response()->json('user dose not have permission',403);
+        }
+
     }
 
     public function create(Request $request)
     {
-        $products = Product::create($request->toArray());
+        $path = $request->file('path_image')->store('public/product_image');
+        $products = Product::create($request->merge(["image_path" =>$path])->toArray());
         $products->orders()->attach($request->order_ids);
         $products->label()->attach($request->label_ids);
+
         return response()->json($products);
     }
 

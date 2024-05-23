@@ -17,6 +17,7 @@ class Product extends Model
          'memory',
          'operatingsystem',
          'color',
+         'path_image',
          'brand_id'
     ];
 
@@ -30,6 +31,10 @@ class Product extends Model
     }
     public function labels(){
         return $this->morphToMany(label::class,'labelable');
+    }
+
+    public function warranty(){
+        return $this->hasOne(Warranty::class);
     }
     protected function ProductColor():Attribute{
         return new Attribute(

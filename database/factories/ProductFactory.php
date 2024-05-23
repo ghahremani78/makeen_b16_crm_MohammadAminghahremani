@@ -23,6 +23,7 @@ class ProductFactory extends Factory
             'memory'=>fake()->randomFloat(128,256,512),
             'operatingsystem'=>fake()->randomElement(['a','i']),
             'color'=>fake()->colorName(),
+            'path_image' =>fake()->imageUrl(640, 480, 'animals', true),
             'brand_id'=>Brand::factory()
         ];
     }

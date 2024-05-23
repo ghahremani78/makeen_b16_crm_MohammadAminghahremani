@@ -48,45 +48,80 @@ class UserController extends Controller
     }
     }
 
-    public function index(Request $request)
+    public function index(Request $request, string $id = null)
     {
-        //$phone_number = request('phone_number');
-        //$email = request('email');
+        if($request->user()->hasPermissionTo('user.index')|| $request->user()->id == $id){
+
+
         $user =new User();
-        //سفارشاتی مه مربوط به کاربر با شماره مو بایل ایکس و ایمیل ایکس می باشد
-      $user = $user->with(['team:id,name','orders','labels:id,name']);
-      //$user = $user->whereHas('orders',function(Builder $q) use($phone_number,$email){
-      //$q->where('email',$email)->where('phoneNumber',$phone_number);
-   //});
-        //if($request->has_order)
-        //$user = $user->paginate(10);
+        $user = $user->with(['team:id,name','orders','labels:id,name']);
+        if($request->has_oders){
+            $user = $user->has('orders');
+        }
+        if($request->order_sum){
+            $user = $user->withSum('orders', 'totalAmount');
+        }
+        if($request->order_count){
+            $user = $user->whitCount('orders');
+
+        }else{
+            $user = $user->get();
+        return response()->json($user);
+        }
+    } else{
+        return $this->unauthorized_response();
+    }
+
         $user = $user->get();
         return response()->json($user);
+
     }
 
     public function create(Request $request)
     {
-        $users = User::create($request->toArray());
-        $users->labels()->attach($request->label_ids);
-        return response()->json($users);
-    }
+        
+            $users = User::create($request->toArray());
+            $users->labels()->attach($request->label_ids);
+            $users->assignRole('user');
+            return response()->json($users);
+
+        }
+
+
 
     public function edit(Request $request, $id)
     {
-        $users = User::where('id', $id)->update($request->toArray());
-        return response()->json($users);
+        if($request->user()->hasPermissionTo('user.edit')){
+            $users = User::where('id', $id)->update($request->toArray());
+            return response()->json($users);
+        }else{
+            return response()->json('user dose not have permission',403);
+        }
+
     }
 
-    public function delete($id)
-    {
-        $users = User::destroy($id);
-        return response()->json($users);
+    public function delete(Request $request ,$id)
+    {   
+        if($request->user()->hasPermissionTo('user.delete')){
+            $users = User::destroy($id);
+            return response()->json($users);
+        }else{
+            return response()->json('user dose not have permission',403);
+        }
+
     }
 
     public function adminregister(Request $request){
-        $user = User::create($request->toArray());
+        $user = auth()->user();
+
+        if($user->hasRole('super_admin')){
+            $user = User::create($request->toArray());
         $user->assignRole($request->role);
         return response()->json($user);
+        }else{
+            return response()->json('user dose not have permission',403);
+        }
+
     }
 
 }

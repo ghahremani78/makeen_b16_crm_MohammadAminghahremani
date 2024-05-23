@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('messages', function (Blueprint $table) {
+        Schema::create('media_tables', function (Blueprint $table) {
             $table->id();
-            $table->text('description');
-            $table->unsignedBigInteger('ticket_id');
+            $table->string('file_name');
+            $table->unsignedBigInteger('ticket_id')->nullable();
+            $table->string('path');
+            $table->integer('size');
+            $table->string('ext');
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('messages');
+        Schema::dropIfExists('media_tables');
     }
 };

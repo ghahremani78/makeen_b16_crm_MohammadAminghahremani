@@ -19,7 +19,7 @@ return new class extends Migration
             $table->bigInteger('phoneNumber');
             $table->string('email');
             $table->string('password');
-            $table->foreignId('team_id')->constrained()->restrictOnDelete()->restrictOnUpdate();
+            $table->foreignId('team_id')->nullable()->constrained()->restrictOnDelete()->restrictOnUpdate();
             $table->timestamps();
         });
     }

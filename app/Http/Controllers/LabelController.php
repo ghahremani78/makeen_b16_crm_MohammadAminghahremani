@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class LabelController extends Controller
 {
     public function index(){
-        $lable = label::with(['users,products,teams'])->get();
+        $lable = label::with(['users','products','teams'])->get();
         return response()->json($lable);
     }
 

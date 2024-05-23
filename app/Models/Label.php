@@ -13,7 +13,7 @@ class label extends Model
     ];
 
     public function users(){
-        return $this->morphedByMany(User::class,'laelable');
+        return $this->morphedByMany(User::class,'labelable');
     }
 
     public function teams(){
