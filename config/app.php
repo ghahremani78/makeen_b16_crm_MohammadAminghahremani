@@ -30,8 +30,8 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-    
-    
+
+
 
     /*
     |--------------------------------------------------------------------------
@@ -84,7 +84,7 @@ return [
     | to any of the locales which will be supported by the application.
     |
     */
-
+    'available_locales' => ['en', 'fa'],
     'locale' => 'en',
 
     /*

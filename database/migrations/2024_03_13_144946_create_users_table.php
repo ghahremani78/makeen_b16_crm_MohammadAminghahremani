@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('username');
-            $table->bigInteger('phoneNumber');
+            $table->string('phoneNumber');
             $table->string('email');
             $table->string('password');
             $table->foreignId('team_id')->nullable()->constrained()->restrictOnDelete()->restrictOnUpdate();

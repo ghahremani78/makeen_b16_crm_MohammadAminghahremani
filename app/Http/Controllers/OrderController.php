@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderShipped;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -34,6 +37,8 @@ class OrderController extends Controller
     {
         $orders = Order::create($request->toArray());
         $orders->products()->attach($request->product_ids);
+        $user = User::find($request->user_id);
+        Mail::send(new OrderShipped($user));
         return response()->json($orders);
     }
 

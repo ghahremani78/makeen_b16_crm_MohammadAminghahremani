@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\label;
+use App\Models\Label;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Team;
@@ -19,7 +19,7 @@ class Factoryseeder extends Seeder
      */
     public function run(): void
     {
-        label::factory(5)->create();
+        Label::factory(5)->create();
         Team::factory(10)->hasLabels()->create();
         User::factory(10)->hasLabels()->create();
         Product::factory(5)->hasLabels()->create();

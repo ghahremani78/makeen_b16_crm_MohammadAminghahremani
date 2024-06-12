@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FactorController;
 use App\Http\Controllers\LabelController;
+use App\Http\Controllers\MailTestController;
 use App\Http\Controllers\MediaController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
@@ -14,9 +15,12 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WarrantyController;
+use App\Jobs\NewBrand;
+use App\Jobs\NewProduct;
 use GuzzleHttp\Middleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,12 +114,12 @@ Route::group(['prefix'=> 'label', 'as' => 'label', 'middleware' => 'auth:sanctum
     Route::delete('delete/{id}',[LabelController::class, 'delete'])->name('delete');
     });
 //media
-Route::group(['prefix'=> 'media', 'as' => 'media', 'middleware' => 'auth:sanctum'],function(){
+/*Route::group(['prefix'=> 'media', 'as' => 'media', 'middleware' => 'auth:sanctum'],function(){
     Route::get('index',[MediaController::class, 'index'])->name('index');
     Route::post('create/{folder}',[MediaController::class,'create'])->name('create');
     Route::put('edit/{id}',[MediaController::class, 'edit'])->name('edit');
     Route::delete('delete/{id}',[MediaController::class, 'delete'])->name('delete');
-    });
+*////});
 //ticket
 Route::group(['prefix'=> 'ticket', 'as' => 'ticket', 'middleware' => 'auth:sanctum'],function(){
         Route::get('index',[TicketController::class, 'index'])->name('index');
@@ -137,3 +141,21 @@ Route::group(['prefix'=> 'warranty', 'as' => 'warranty', 'middleware' => 'auth:s
     Route::put('edit/{id}',[WarrantyController::class, 'edit'])->name('edit');
     Route::delete('delete/{id}',[WarrantyController::class, 'delete'])->name('delete');
 });
+
+//medialibarary
+
+Route::group(['prefix'=> 'media', 'as' => 'media', 'middleware' => 'auth:sanctum'],function(){
+    Route::post('uploadMedia/{modelType}/{id}', [MediaController::class, 'uploadMedia'])->name('uploadMedia');
+    Route::get('show/{modelType}/{id}', [MediaController::class, 'show'])->name('show');
+
+});
+
+Route::get('test', function () {
+  NewProduct::dispatch(3);
+})->name('test');
+Route::get('testt', function () {
+    NewBrand::dispatch();
+})->name('testt');
+
+  Route::get('/send-test-email', [MailTestController::class, 'sendTestEmail']);
+  Route::post('/set-language', [LanguageController::class, 'setLanguage']);

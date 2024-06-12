@@ -79,7 +79,7 @@ class UserController extends Controller
 
     public function create(Request $request)
     {
-        
+
             $users = User::create($request->toArray());
             $users->labels()->attach($request->label_ids);
             $users->assignRole('user');
@@ -101,7 +101,7 @@ class UserController extends Controller
     }
 
     public function delete(Request $request ,$id)
-    {   
+    {
         if($request->user()->hasPermissionTo('user.delete')){
             $users = User::destroy($id);
             return response()->json($users);
