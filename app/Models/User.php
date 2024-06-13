@@ -71,7 +71,7 @@ class User extends Authenticatable implements HasMedia
     }
 
     public function labels(){
-        return $this->morphToMany(label::class,'labelable');
+        return $this->morphToMany(Label::class,'labelable');
     }
 
    // public function getFullNameAttribute(){
