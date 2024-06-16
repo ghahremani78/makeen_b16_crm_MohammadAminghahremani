@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('log:test "این یک پیام تست است"')->timezone('Asia/Tehran')->everyTwoMinutes();
+        
     }
 
     /**
@@ -24,4 +26,8 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
+    protected $commands = [
+        \App\Console\Commands\LogTest::class,
+    ];
+
 }

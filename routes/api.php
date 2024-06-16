@@ -10,6 +10,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ResellerController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TicketController;
@@ -158,4 +159,15 @@ Route::get('testt', function () {
 })->name('testt');
 
   Route::get('/send-test-email', [MailTestController::class, 'sendTestEmail']);
-  Route::post('/set-language', [LanguageController::class, 'setLanguage']);
+  Route::post('/setlanguage', [LanguageController::class, 'setLanguage']);
+
+route::group(['prefix'=>'roles','as'=>'roles'],function(){
+    Route::get('index',[RoleController::class,'index'])->name('index');
+    Route::get('show/{id}',[RoleController::class,'show'])->name('show');
+    Route::post('create',[RoleController::class,'create'])->name('create');
+    Route::put('edit/{id}',[RoleController::class,'edit'])->name('edit');
+    Route::delete('destroy/{id}',[RoleController::class,'destroy'])->name('destroy');
+    Route::post('update_user_roles/{id}',[RoleController::class,'update_user_roles'])->name('update_user_roles');
+    Route::post('update_permissions/{id}',[RoleController::class,'update_permissions'])->name('update_permissions');
+    Route::post('update_user_permissions/{id}',[RoleController::class,'update_user_permissions'])->name('update_user_permissions');
+});

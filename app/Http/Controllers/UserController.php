@@ -82,7 +82,7 @@ class UserController extends Controller
     {
 
             $users = User::create($request->toArray());
-            $users->labels()->attach($request->label_ids);
+            $users->labels()->attach($request->Label_ids);
             $users->assignRole('user');
             return response()->json($users);
 
